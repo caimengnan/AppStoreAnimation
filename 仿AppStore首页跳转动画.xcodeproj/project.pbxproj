@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		365D487620FC881A007CD644 /* BottomView.m in Sources */ = {isa = PBXBuildFile; fileRef = 365D487520FC881A007CD644 /* BottomView.m */; };
 		3695D3AA20F092F6005587C9 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 3695D3A920F092F6005587C9 /* AppDelegate.m */; };
 		3695D3AD20F092F6005587C9 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3695D3AC20F092F6005587C9 /* ViewController.m */; };
 		3695D3B020F092F6005587C9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3695D3AE20F092F6005587C9 /* Main.storyboard */; };
@@ -18,6 +19,8 @@
 
 /* Begin PBXFileReference section */
 		3623B15420F74BE400B5A69F /* 仿AppStore首页跳转动画-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "仿AppStore首页跳转动画-Bridging-Header.h"; sourceTree = "<group>"; };
+		365D487420FC881A007CD644 /* BottomView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BottomView.h; sourceTree = "<group>"; };
+		365D487520FC881A007CD644 /* BottomView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BottomView.m; sourceTree = "<group>"; };
 		3695D3A520F092F6005587C9 /* 仿AppStore首页跳转动画.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "仿AppStore首页跳转动画.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3695D3A820F092F6005587C9 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		3695D3A920F092F6005587C9 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -67,6 +70,8 @@
 				3695D3A920F092F6005587C9 /* AppDelegate.m */,
 				3695D3AB20F092F6005587C9 /* ViewController.h */,
 				3695D3AC20F092F6005587C9 /* ViewController.m */,
+				365D487420FC881A007CD644 /* BottomView.h */,
+				365D487520FC881A007CD644 /* BottomView.m */,
 				3695D3BE20F09381005587C9 /* MyCell.h */,
 				3695D3BF20F09382005587C9 /* MyCell.m */,
 				3695D3AE20F092F6005587C9 /* Main.storyboard */,
@@ -154,6 +159,7 @@
 				3695D3AD20F092F6005587C9 /* ViewController.m in Sources */,
 				3695D3C020F09382005587C9 /* MyCell.m in Sources */,
 				3695D3B820F092F7005587C9 /* main.m in Sources */,
+				365D487620FC881A007CD644 /* BottomView.m in Sources */,
 				3695D3AA20F092F6005587C9 /* AppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
