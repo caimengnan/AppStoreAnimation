@@ -8,12 +8,14 @@
 
 #import "ViewController.h"
 #import "MyCell.h"
+#import "BottomView.h"
 
 @interface ViewController () <UITableViewDataSource, UITableViewDelegate,UIScrollViewDelegate>
 @property (nonatomic,strong) UIView *myBottomView;
 @property (nonatomic, strong) UITableView * tableView;
 @property (nonatomic,strong) NSArray *dataSource;
 @property (nonatomic,strong) UIScrollView *scrollView;
+//@property (nonatomic,strong) BottomView *bottomScrollView;
 @end
 
 @implementation ViewController
@@ -34,14 +36,13 @@
     
     self.dataSource = @[@"fireman",@"meinv1",@"fengjing2"];
     
-    UIView *headerView = [[UIView alloc]initWithFrame:(CGRectMake(0, 0, SCREEN_WIDTH, 300))];
-    headerView.backgroundColor = [UIColor redColor];
-    
     [self.view addSubview:self.tableView];
-//    [self.scrollView addSubview:self.tableView];
-//    [self.scrollView addSubview:headerView];
     
 }
+
+
+
+
 
 
 - (UIScrollView *)scrollView
@@ -86,6 +87,16 @@
     return _myBottomView;
 }
 
+//- (BottomView *)bottomScrollView
+//{
+//    if (_bottomScrollView == nil) {
+//        _bottomScrollView = [[BottomView alloc]initWithFrame:(CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT))];
+//        _bottomScrollView.backgroundColor = [UIColor redColor];
+//    }
+//    return _bottomScrollView;
+//}
+
+
 
 #pragma mark -- UITableViewDelegate  UITableViewDataSource
 
@@ -104,8 +115,6 @@
 
 - (BOOL)tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath{
 
-    NSLog(@"按下");
-
     MyCell *cell = [tableView cellForRowAtIndexPath:indexPath];
     [UIView animateWithDuration:0.3 animations:^{
         cell.bottomView.transform = CGAffineTransformMakeScale(0.95, 0.95);
@@ -117,7 +126,6 @@
 
 - (void)tableView:(UITableView *)tableView didUnhighlightRowAtIndexPath:(NSIndexPath *)indexPath {
     
-        NSLog(@"song kai");
         MyCell *cell = [tableView cellForRowAtIndexPath:indexPath];
         [UIView animateWithDuration:0.3 animations:^{
             cell.bottomView.transform = CGAffineTransformMakeScale(1.0, 1.0);
@@ -125,64 +133,88 @@
     
 }
 
+- (BOOL)prefersStatusBarHidden{
+    return YES;
+}
+
+
+- (UIStatusBarAnimation)preferredStatusBarUpdateAnimation{
+    return UIStatusBarAnimationFade;
+}
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
-    MyCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+    //隐藏状态栏
     
     
     //cell中bottomView的frame转换成self.view中的frame
+    MyCell *cell = [tableView cellForRowAtIndexPath:indexPath];
     CGRect transformFrame = [cell.bottomView convertRect:cell.bottomView.bounds toView:self.view];
     cell.bottomView.frame = transformFrame;
+    
+    //添加滑动视图
+    BottomView *bottomScrollView = [[BottomView alloc]initWithFrame:(CGRectMake(padding, transformFrame.origin.y, cellWidth, IMGAEHEIGHT))];
+    bottomScrollView.backgroundColor = [UIColor blueColor];
+    
+    //cell.bottomView添加到self.view上，方便进行frame转换动画
     [self.view addSubview:cell.bottomView];
+    [self.view addSubview:bottomScrollView];
+    [self.view insertSubview:cell.bottomView aboveSubview:bottomScrollView];
 
     [UIView animateWithDuration:0.7 delay:0 usingSpringWithDamping:0.7 initialSpringVelocity:0.5 options:(UIViewAnimationOptionAllowAnimatedContent) animations:^{
-        cell.bottomView.frame = CGRectMake(0, 0, SCREEN_WIDTH,SCREEN_HEIGHT);
+        [bottomScrollView changeFramesWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
+        cell.bottomView.frame = CGRectMake(0, 0, SCREEN_WIDTH,IMGAEHEIGHT);
         cell.bottomView.layer.cornerRadius = 0.0;
-        cell.myImageView.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_WIDTH*491/375);
+        cell.myImageView.frame = CGRectMake(0, 0, SCREEN_WIDTH, IMGAEHEIGHT);
         cell.titleLabel.frame = CGRectMake(15, 15, 200, 60);
-        cell.closeBtn.frame = CGRectMake(cell.bottomView.frame.size.width-40, 20, 30, 30);
+        cell.closeBtn.frame = CGRectMake(SCREEN_WIDTH-40, 20, 30, 30);
         cell.closeBtn.alpha = 1.0;
     } completion:^(BOOL finished) {
-        [self.view insertSubview:self.myBottomView belowSubview:cell.bottomView];
+        //frame转换完成后添加背景图，添加滚动视图，滚动视图上添加cell.bottomView
+        [self.view addSubview:self.myBottomView];
+        [self.view addSubview:bottomScrollView];
+        [bottomScrollView addTopView:cell.bottomView];
         self.myBottomView.hidden = NO;
     }];
 
 
     //FIXME:返回操作
+    CGRect currentRect = [cell.bottomView convertRect:cell.bottomView.bounds toView:self.view];
     __weak typeof(MyCell) *weakCell = cell;
     cell.closeActionCAllBack = ^{
-        
+        weakCell.bottomView.frame = currentRect;
+        [self.view addSubview:weakCell.bottomView];
         [UIView animateWithDuration:0.7 delay:0 usingSpringWithDamping:0.7 initialSpringVelocity:0.5 options:UIViewAnimationOptionAllowAnimatedContent animations:^{
+            [bottomScrollView changeFramesWithFrame:transformFrame];
             weakCell.bottomView.frame = transformFrame;
             weakCell.bottomView.layer.cornerRadius = 10.0;
-            weakCell.myImageView.frame = CGRectMake(-20, -20, SCREEN_WIDTH, SCREEN_WIDTH*491/375);
-            weakCell.closeBtn.frame = CGRectMake(cell.bottomView.frame.size.width-40, 20, 30, 30);
+            weakCell.myImageView.frame = CGRectMake(-20, -20, SCREEN_WIDTH, IMGAEHEIGHT);
+            weakCell.closeBtn.frame = CGRectMake(weakCell.bottomView.frame.size.width-40, 20, 30, 30);
             weakCell.closeBtn.alpha = 0.0;
             weakCell.titleLabel.frame = CGRectMake(15, 15, 200, 60);
         } completion:^(BOOL finished) {
             weakCell.bottomView.frame = CGRectMake(20, 20, transformFrame.size.width, transformFrame.size.height);
             [weakCell.contentView addSubview:weakCell.bottomView];
+            [bottomScrollView removeFromSuperview];
         }];
-        
         self.myBottomView.hidden = YES;
-        
     };
+    
     
     //FIXME: 侧滑操作
     __weak typeof(self) weakSelf = self;
-    cell.edgeGestureCallBack = ^(UIScreenEdgePanGestureRecognizer *ges) {
+    bottomScrollView.edgeGestureCallBack = ^(UIScreenEdgePanGestureRecognizer *ges) {
         
         CGPoint currentPoint = [ges locationInView:weakSelf.myBottomView];
         CGFloat scale = 1 - (currentPoint.x * 0.3)/(SCREEN_WIDTH/2);
         
         if (scale >= 0.75) {
             
-            weakCell.bottomView.transform = CGAffineTransformMakeScale(scale, scale);
-            weakCell.bottomView.layer.cornerRadius = currentPoint.x * 20/SCREEN_WIDTH;
+            cell.bottomView.transform = CGAffineTransformMakeScale(scale, scale);
+            cell.bottomView.layer.cornerRadius = currentPoint.x * 20/SCREEN_WIDTH;
             
-            weakCell.closeBtn.alpha = (scale-0.75)/0.25;
+            cell.closeBtn.alpha = (scale-0.75)/0.25;
             
         } else if (scale < 0.75) {
             
@@ -193,12 +225,12 @@
             weakSelf.myBottomView.hidden = YES;
             
             [UIView animateWithDuration:0.7 delay:0 usingSpringWithDamping:0.7 initialSpringVelocity:0.5 options:UIViewAnimationOptionAllowAnimatedContent animations:^{
-                weakCell.bottomView.transform = CGAffineTransformMakeScale(1.0, 1.0);
-                weakCell.bottomView.frame = transformFrame;
-                weakCell.closeBtn.frame = CGRectMake(cell.bottomView.frame.size.width-40, 20, 30, 30);
+                cell.bottomView.transform = CGAffineTransformMakeScale(1.0, 1.0);
+                cell.bottomView.frame = transformFrame;
+//                cell.closeBtn.frame = CGRectMake(cell.bottomView.frame.size.width-40, 20, 30, 30);
             } completion:^(BOOL finished) {
-                weakCell.bottomView.frame = CGRectMake(20, 20, SCREEN_WIDTH-40,415 - 40);
-                [weakCell.contentView addSubview:weakCell.bottomView];
+                cell.bottomView.frame = CGRectMake(20, 20, SCREEN_WIDTH-40,cellHeight - 40);
+                [cell.contentView addSubview:cell.bottomView];
                 
             }];
             
@@ -207,14 +239,22 @@
         //手势取消或停止
         if (ges.state == UIGestureRecognizerStateCancelled || ges.state == UIGestureRecognizerStateEnded) {
             [UIView animateWithDuration:0.2 animations:^{
-                weakCell.bottomView.transform = CGAffineTransformMakeScale(1, 1);
-                weakCell.bottomView.layer.cornerRadius = 0;
-                weakCell.closeBtn.alpha = 1.0;
+                cell.bottomView.transform = CGAffineTransformMakeScale(1, 1);
+                cell.bottomView.layer.cornerRadius = 0;
+                cell.closeBtn.alpha = 1.0;
             }];
         }
         
     };
     
+    
+    //FIXME: ScrollView滑动造成的closeBtn移动
+    bottomScrollView.changeCloseBtnFrameCallBack = ^(CGFloat offset_Y) {
+        
+//        NSLog(@"%f",offset_Y);
+        
+        cell.closeBtn.frame = CGRectMake(SCREEN_WIDTH-40, 20 + offset_Y, 30, 30);
+    };
     
 }
 
@@ -227,7 +267,7 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return 415;
+    return cellHeight;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{

@@ -24,13 +24,6 @@
 
 - (void)addSubViews{
     
-    self.scrollView = [[UIScrollView alloc]init];
-//    self.scrollView.contentInset = UIEdgeInsetsMake(200, 0, 0, 0);
-    self.scrollView.contentSize = CGSizeMake(SCREEN_WIDTH, 2 * SCREEN_HEIGHT);
-    self.scrollView.backgroundColor = [UIColor yellowColor];
-//    self.scrollView.scrollIndicatorInsets = UIEdgeInsetsMake(200, 0, 0, 0);
-    
-    
     self.bottomView = [[UIView alloc]init];
     
     self.bottomView.backgroundColor = [UIColor whiteColor];
@@ -38,9 +31,7 @@
     self.bottomView.layer.cornerRadius = 8.0;
     self.bottomView.userInteractionEnabled = YES;
     
-    UIScreenEdgePanGestureRecognizer *edgGesture = [[UIScreenEdgePanGestureRecognizer alloc]initWithTarget:self action:@selector(edgGesAction:)];
-    edgGesture.edges = UIRectEdgeLeft;
-    [self.bottomView addGestureRecognizer:edgGesture];
+    
     
     self.myImageView = [[UIImageView alloc]init];
     self.myImageView.contentMode = UIViewContentModeScaleAspectFill;
@@ -62,7 +53,6 @@
     
     [self setUpFramesInCell];
     
-    
     [self.contentView addSubview:self.bottomView];
     [self.bottomView addSubview:self.myImageView];
     [self.bottomView addSubview:self.titleLabel];
@@ -72,28 +62,18 @@
 }
 
 - (void)setUpFramesInCell{
-    CGFloat padding = 20.0f;
-    
-    
-    
-    self.bottomView.frame = CGRectMake(padding, padding, SCREEN_WIDTH - 2 * padding,415 - 2 * padding);
-    self.myImageView.frame = CGRectMake(-padding, -padding, SCREEN_WIDTH, SCREEN_WIDTH*491/375);
+    self.bottomView.frame = CGRectMake(padding, padding, cellWidth,415 - 2 * padding);
+    self.myImageView.frame = CGRectMake(-padding, -padding, SCREEN_WIDTH, IMGAEHEIGHT);
     self.closeBtn.frame = CGRectMake(self.bottomView.frame.size.width-40, padding, 30, 30);
     self.closeBtn.alpha = 0.0;
     self.titleLabel.frame = CGRectMake(15, 15, 200, 60);
-    self.detailLabel.frame = CGRectMake(padding, SCREEN_WIDTH * 491 / 375, SCREEN_WIDTH - 2 * padding, 200);
+    self.detailLabel.frame = CGRectMake(padding, IMGAEHEIGHT, cellWidth, 200);
 }
-
 
 
 //关闭操作
 - (void)closeAction{
     self.closeActionCAllBack();
-}
-
-//侧滑操作
-- (void)edgGesAction:(UIScreenEdgePanGestureRecognizer *)ges{
-    self.edgeGestureCallBack(ges);
 }
 
 

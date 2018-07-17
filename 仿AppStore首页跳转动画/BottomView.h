@@ -17,8 +17,16 @@
 //偏移量
 @property (nonatomic,assign) UIEdgeInsets contentInset;
 
-
 //添加顶部视图
 - (void)addTopView:(UIView *)topView;
+
+//调整frame
+- (void)changeFramesWithFrame:(CGRect)transformFrame;
+
+
+//右滑手势
+@property (copy,nonatomic) void(^edgeGestureCallBack)(UIScreenEdgePanGestureRecognizer *ges);
+//滑动时改变cell上关闭按钮的位置
+@property (copy,nonatomic) void(^changeCloseBtnFrameCallBack)(CGFloat offset_Y);
 
 @end

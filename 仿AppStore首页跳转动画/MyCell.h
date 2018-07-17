@@ -16,9 +16,8 @@
 @property (nonatomic,strong) UILabel *detailLabel;
 @property (nonatomic,strong) UIScrollView *scrollView;
 
+//关闭按钮的回调
 @property (copy,nonatomic) void(^closeActionCAllBack)(void);
-@property (copy,nonatomic) void(^edgeGestureCallBack)(UIScreenEdgePanGestureRecognizer *ges);
-
 
 - (void)setUpFramesInCell;
 

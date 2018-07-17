@@ -31,4 +31,14 @@
 #define SCREEN_WIDTH ([UIScreen mainScreen].bounds.size.width)
 #define SCREEN_HEIGHT ([UIScreen mainScreen].bounds.size.height)
 
+#define padding 20.0
+
+//相对高度
+#define IMGAEHEIGHT SCREEN_WIDTH*491/375
+//cell高度
+#define cellHeight 415
+//cell可见宽度
+#define cellWidth SCREEN_WIDTH - 2 * padding
+
+
 #endif /* PrefixHeader_pch */
