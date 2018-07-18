@@ -257,7 +257,7 @@
     //FIXME: ScrollView滑动造成的closeBtn移动 （待定）
     bottomScrollView.changeCloseBtnFrameCallBack = ^(CGFloat offset_Y) {
         
-//        cell.closeBtn.frame = CGRectMake(SCREEN_WIDTH-40, 20 + offset_Y, 30, 30);
+        cell.closeBtn.frame = CGRectMake(SCREEN_WIDTH-40, 20 + offset_Y, 30, 30);
     };
     
 }
