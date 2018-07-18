@@ -33,7 +33,7 @@
 		3695D3B720F092F7005587C9 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		3695D3BE20F09381005587C9 /* MyCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyCell.h; sourceTree = "<group>"; };
 		3695D3BF20F09382005587C9 /* MyCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyCell.m; sourceTree = "<group>"; };
-		3695D3C120F093C1005587C9 /* PrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
+		3695D3C120F093C1005587C9 /* ABC.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ABC.pch; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,7 +79,7 @@
 				3695D3B320F092F7005587C9 /* LaunchScreen.storyboard */,
 				3695D3B620F092F7005587C9 /* Info.plist */,
 				3695D3B720F092F7005587C9 /* main.m */,
-				3695D3C120F093C1005587C9 /* PrefixHeader.pch */,
+				3695D3C120F093C1005587C9 /* ABC.pch */,
 				3623B15420F74BE400B5A69F /* 仿AppStore首页跳转动画-Bridging-Header.h */,
 			);
 			path = "仿AppStore首页跳转动画";
@@ -303,7 +303,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = XN77782Q57;
-				GCC_PREFIX_HEADER = "/Users/caimengnan/Desktop/Swift/仿AppStore首页跳转动画/仿AppStore首页跳转动画/PrefixHeader.pch";
+				GCC_PREFIX_HEADER = "/Users/caimengnan/Desktop/Swift/仿AppStore首页跳转动画/仿AppStore首页跳转动画/ABC.pch";
 				INFOPLIST_FILE = "仿AppStore首页跳转动画/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -325,7 +325,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = XN77782Q57;
-				GCC_PREFIX_HEADER = "/Users/caimengnan/Desktop/Swift/仿AppStore首页跳转动画/仿AppStore首页跳转动画/PrefixHeader.pch";
+				GCC_PREFIX_HEADER = "/Users/caimengnan/Desktop/Swift/仿AppStore首页跳转动画/仿AppStore首页跳转动画/ABC.pch";
 				INFOPLIST_FILE = "仿AppStore首页跳转动画/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

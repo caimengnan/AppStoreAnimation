@@ -166,6 +166,7 @@
         [bottomScrollView changeFramesWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
         cell.bottomView.frame = CGRectMake(0, 0, SCREEN_WIDTH,IMGAEHEIGHT);
         cell.bottomView.layer.cornerRadius = 0.0;
+        
         cell.myImageView.frame = CGRectMake(0, 0, SCREEN_WIDTH, IMGAEHEIGHT);
         cell.titleLabel.frame = CGRectMake(15, 15, 200, 60);
         cell.closeBtn.frame = CGRectMake(SCREEN_WIDTH-40, 20, 30, 30);
@@ -180,12 +181,16 @@
 
 
     //FIXME:返回操作
-    CGRect currentRect = [cell.bottomView convertRect:cell.bottomView.bounds toView:self.view];
+    
     __weak typeof(MyCell) *weakCell = cell;
     cell.closeActionCAllBack = ^{
+        
+        CGRect currentRect = [weakCell.bottomView convertRect:weakCell.bottomView.bounds toView:bottomScrollView];
+        NSLog(@"%f",currentRect.origin.y);
+        
         weakCell.bottomView.frame = currentRect;
         [self.view addSubview:weakCell.bottomView];
-        [UIView animateWithDuration:0.7 delay:0 usingSpringWithDamping:0.7 initialSpringVelocity:0.5 options:UIViewAnimationOptionAllowAnimatedContent animations:^{
+        [UIView animateWithDuration:1.0 delay:0 usingSpringWithDamping:0.7 initialSpringVelocity:0.5 options:UIViewAnimationOptionAllowAnimatedContent animations:^{
             [bottomScrollView changeFramesWithFrame:transformFrame];
             weakCell.bottomView.frame = transformFrame;
             weakCell.bottomView.layer.cornerRadius = 10.0;
@@ -196,6 +201,7 @@
         } completion:^(BOOL finished) {
             weakCell.bottomView.frame = CGRectMake(20, 20, transformFrame.size.width, transformFrame.size.height);
             [weakCell.contentView addSubview:weakCell.bottomView];
+            
             [bottomScrollView removeFromSuperview];
         }];
         self.myBottomView.hidden = YES;
@@ -204,6 +210,7 @@
     
     //FIXME: 侧滑操作
     __weak typeof(self) weakSelf = self;
+    __weak typeof(BottomView) *weakBottomScrollView = bottomScrollView;
     bottomScrollView.edgeGestureCallBack = ^(UIScreenEdgePanGestureRecognizer *ges) {
         
         CGPoint currentPoint = [ges locationInView:weakSelf.myBottomView];
@@ -211,9 +218,9 @@
         
         if (scale >= 0.75) {
             
-            cell.bottomView.transform = CGAffineTransformMakeScale(scale, scale);
-            cell.bottomView.layer.cornerRadius = currentPoint.x * 20/SCREEN_WIDTH;
-            
+            weakBottomScrollView.transform = CGAffineTransformMakeScale(scale, scale);
+            weakBottomScrollView.layer.cornerRadius = currentPoint.x * 20/SCREEN_WIDTH;
+            weakBottomScrollView.clipsToBounds = YES;
             cell.closeBtn.alpha = (scale-0.75)/0.25;
             
         } else if (scale < 0.75) {
@@ -223,15 +230,14 @@
             }
             
             weakSelf.myBottomView.hidden = YES;
-            
             [UIView animateWithDuration:0.7 delay:0 usingSpringWithDamping:0.7 initialSpringVelocity:0.5 options:UIViewAnimationOptionAllowAnimatedContent animations:^{
-                cell.bottomView.transform = CGAffineTransformMakeScale(1.0, 1.0);
-                cell.bottomView.frame = transformFrame;
-//                cell.closeBtn.frame = CGRectMake(cell.bottomView.frame.size.width-40, 20, 30, 30);
+                weakBottomScrollView.transform = CGAffineTransformMakeScale(1.0, 1.0);
+                weakBottomScrollView.frame = transformFrame;
             } completion:^(BOOL finished) {
                 cell.bottomView.frame = CGRectMake(20, 20, SCREEN_WIDTH-40,cellHeight - 40);
+                cell.bottomView.layer.cornerRadius = 10.0;
                 [cell.contentView addSubview:cell.bottomView];
-                
+                [weakBottomScrollView removeFromSuperview];
             }];
             
         }
@@ -239,8 +245,8 @@
         //手势取消或停止
         if (ges.state == UIGestureRecognizerStateCancelled || ges.state == UIGestureRecognizerStateEnded) {
             [UIView animateWithDuration:0.2 animations:^{
-                cell.bottomView.transform = CGAffineTransformMakeScale(1, 1);
-                cell.bottomView.layer.cornerRadius = 0;
+                weakBottomScrollView.transform = CGAffineTransformMakeScale(1, 1);
+                weakBottomScrollView.layer.cornerRadius = 0;
                 cell.closeBtn.alpha = 1.0;
             }];
         }
@@ -248,12 +254,10 @@
     };
     
     
-    //FIXME: ScrollView滑动造成的closeBtn移动
+    //FIXME: ScrollView滑动造成的closeBtn移动 （待定）
     bottomScrollView.changeCloseBtnFrameCallBack = ^(CGFloat offset_Y) {
         
-//        NSLog(@"%f",offset_Y);
-        
-        cell.closeBtn.frame = CGRectMake(SCREEN_WIDTH-40, 20 + offset_Y, 30, 30);
+//        cell.closeBtn.frame = CGRectMake(SCREEN_WIDTH-40, 20 + offset_Y, 30, 30);
     };
     
 }

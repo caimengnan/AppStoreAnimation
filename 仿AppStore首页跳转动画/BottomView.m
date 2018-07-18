@@ -13,6 +13,9 @@
 {
     CGRect tempFrame;
 }
+
+@property (nonatomic,strong) UIView *tempView;
+
 @end
 
 @implementation BottomView
@@ -44,7 +47,7 @@
     self.scrollView.contentInset = UIEdgeInsetsMake(IMGAEHEIGHT, 0, 0, 0);
     self.scrollView.scrollIndicatorInsets = UIEdgeInsetsMake(IMGAEHEIGHT, 0, 0, 0);
     self.scrollView.contentSize = CGSizeMake(SCREEN_WIDTH, 2 * SCREEN_HEIGHT);
-    self.scrollView.backgroundColor = [UIColor yellowColor];
+    self.scrollView.backgroundColor = [UIColor whiteColor];
     self.scrollView.delegate = self;
     [self addSubview:self.scrollView];
     
@@ -65,15 +68,26 @@
 - (void)addTopView:(UIView *)topView {
     topView.tag = 101;
     tempFrame = topView.frame;
+    self.tempView = topView;
     topView.frame = CGRectMake(0, -IMGAEHEIGHT, SCREEN_WIDTH, IMGAEHEIGHT);
-    NSLog(@"self.scrollView.contentInset: %f",self.scrollView.contentInset.top);
-    
-    UIView *subView = [[UIView alloc]initWithFrame:(CGRectMake(0, 0, 50, 50))];
-    subView.backgroundColor = [UIColor redColor];
-    
-    [self.scrollView addSubview:subView];
+    UILabel *subLabel = [[UILabel alloc]initWithFrame:(CGRectMake(20, 0, topView.frame.size.width-40, 150))];
+    subLabel.text = @"美国载人航天事业的尴尬境地是从其航天飞机退役开始的。没有了航天飞机，NASA仍要保障国际空间站的人员运输，策略只能是付高额票价购买俄罗斯“联盟”号的运送服务。为了不受制于人，NASA早已启动了一系列制造下一代航天载具的计划，并向本国的商业企业公开招标。";
+    subLabel.numberOfLines = 0;
+    [self.scrollView addSubview:subLabel];
     [self.scrollView addSubview:topView];
     
+//    [self addObserver:self.tempView forKeyPath:@"frame" options:(NSKeyValueObservingOptionNew) context:nil];
+}
+
+- (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event{
+    id hitView = [super hitTest:point withEvent:event];
+    if ([hitView isKindOfClass:[UIButton class]]) {
+        NSLog(@"按钮");
+        return hitView;
+    } else {
+        NSLog(@"其他");
+        return [super hitTest:point withEvent:event];
+    }
 }
 
 
@@ -82,7 +96,6 @@
     self.frame = transformFrame;
     self.scrollView.frame = CGRectMake(0, 0, transformFrame.size.width, transformFrame.size.height);
 }
-
 
 
 //侧滑操作
@@ -96,10 +109,8 @@
 {
     CGFloat offSet_Y = scrollView.contentOffset.y;
     scrollView.bounces = YES;
-    NSLog(@"%f",offSet_Y);
     if (offSet_Y <= -IMGAEHEIGHT) {
-        UIView *headView = [self viewWithTag:101];
-        headView.frame = CGRectMake(tempFrame.origin.x, offSet_Y, tempFrame.size.width, tempFrame.size.height);
+        self.tempView.frame = CGRectMake(tempFrame.origin.x, offSet_Y, tempFrame.size.width, tempFrame.size.height);
     }
     
     //回调偏移量以更改closeBtn的位置
@@ -108,7 +119,7 @@
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
 {
-    if (scrollView.contentOffset.y <= -IMGAEHEIGHT) {
+    if ([[NSString stringWithFormat:@"%f",scrollView.contentOffset.y] integerValue] <= [[NSString stringWithFormat:@"%f",-IMGAEHEIGHT] integerValue]) {
         scrollView.bounces = NO;
     }
 }
