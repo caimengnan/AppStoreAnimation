@@ -1,0 +1,3 @@
+# AppStoreAnimation
+仿照AppStore首页效果,还有很多细节需要完善……
+![image](https://github.com/caimengnan/AppStoreAnimation/blob/master/%E6%95%88%E6%9E%9C.gif)
