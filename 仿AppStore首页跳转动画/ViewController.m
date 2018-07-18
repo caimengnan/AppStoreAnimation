@@ -186,7 +186,6 @@
     cell.closeActionCAllBack = ^{
         
         CGRect currentRect = [weakCell.bottomView convertRect:weakCell.bottomView.bounds toView:bottomScrollView];
-        NSLog(@"%f",currentRect.origin.y);
         
         weakCell.bottomView.frame = currentRect;
         [self.view addSubview:weakCell.bottomView];
@@ -230,9 +229,16 @@
             }
             
             weakSelf.myBottomView.hidden = YES;
+            
             [UIView animateWithDuration:0.7 delay:0 usingSpringWithDamping:0.7 initialSpringVelocity:0.5 options:UIViewAnimationOptionAllowAnimatedContent animations:^{
                 weakBottomScrollView.transform = CGAffineTransformMakeScale(1.0, 1.0);
                 weakBottomScrollView.frame = transformFrame;
+                
+                cell.myImageView.frame = CGRectMake(-20, -20, SCREEN_WIDTH, IMGAEHEIGHT);
+                cell.closeBtn.frame = CGRectMake(weakCell.bottomView.frame.size.width-40, 20, 30, 30);
+                cell.closeBtn.alpha = 0.0;
+                cell.titleLabel.frame = CGRectMake(15, 15, 200, 60);
+                
             } completion:^(BOOL finished) {
                 cell.bottomView.frame = CGRectMake(20, 20, SCREEN_WIDTH-40,cellHeight - 40);
                 cell.bottomView.layer.cornerRadius = 10.0;
