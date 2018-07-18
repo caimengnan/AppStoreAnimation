@@ -47,7 +47,7 @@
     self.scrollView.contentInset = UIEdgeInsetsMake(IMGAEHEIGHT, 0, 0, 0);
     self.scrollView.scrollIndicatorInsets = UIEdgeInsetsMake(IMGAEHEIGHT, 0, 0, 0);
     self.scrollView.contentSize = CGSizeMake(SCREEN_WIDTH, 2 * SCREEN_HEIGHT);
-    self.scrollView.backgroundColor = [UIColor whiteColor];
+    self.scrollView.backgroundColor = [UIColor yellowColor];
     self.scrollView.delegate = self;
     [self addSubview:self.scrollView];
     
