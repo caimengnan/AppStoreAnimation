@@ -1,8 +1,8 @@
 //
 //  ViewController.h
-//  仿AppStore首页跳转动画
+//  AppStore
 //
-//  Created by caimengnan on 2018/7/7.
+//  Created by caimengnan on 2018/7/24.
 //  Copyright © 2018年 frameworkdemo. All rights reserved.
 //
 
