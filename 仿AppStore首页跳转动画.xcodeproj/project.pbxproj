@@ -303,7 +303,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = XN77782Q57;
-				GCC_PREFIX_HEADER = "/Users/caimengnan/Desktop/Swift/仿AppStore首页跳转动画/仿AppStore首页跳转动画/ABC.pch";
+				GCC_PREFIX_HEADER = "$(SRCROOT)/仿AppStore首页跳转动画/ABC.pch";
 				INFOPLIST_FILE = "仿AppStore首页跳转动画/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -325,7 +325,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = XN77782Q57;
-				GCC_PREFIX_HEADER = "/Users/caimengnan/Desktop/Swift/仿AppStore首页跳转动画/仿AppStore首页跳转动画/ABC.pch";
+				GCC_PREFIX_HEADER = "$(SRCROOT)/仿AppStore首页跳转动画/ABC.pch";
 				INFOPLIST_FILE = "仿AppStore首页跳转动画/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
